@@ -21,50 +21,11 @@ class _AgeCheckerState extends State<AgeChecker> {
             return Column(
               children: [
                 SizedBox(height: 50,),
-                Center(
-                    child: Text("Enter Age",
-                      style: TextStyle(
-                        fontSize: 24,
-                      ),
-                    )),
+                _buildHeader(),
                 SizedBox(height: 40,),
-                Container(
-                  constraints: BoxConstraints(
-                      maxWidth: 400
-                  ),
-                  margin: EdgeInsets.symmetric(horizontal: 40),
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: "Enter Age",
-                      labelStyle: TextStyle(
-                        color: Colors.black,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      disabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    onChanged: (val){
-                        provider.checkEligibility(int.parse(val));
-                    },
-                  ),
-                ),
+                _buildTextFormField(provider),
                 SizedBox(height: 40,),
-                Text(provider.eligibilityMessage,
-                  style: TextStyle(
-                      fontSize: 16
-                  ),
-                )
-
+                _buildTextValidator(provider)
               ],
             );
 
@@ -73,4 +34,64 @@ class _AgeCheckerState extends State<AgeChecker> {
       ),
     ));
   }
+
+  Text _buildTextValidator(AgeProvider provider) {
+    return Text(provider.eligibilityMessage,
+                style: TextStyle(
+                    fontSize: 16,
+                  color: provider.isEligible ? Colors.greenAccent : Colors.redAccent
+                ),
+              );
+  }
+  Container _buildTextFormField(AgeProvider provider) {
+    return Container(
+                constraints: BoxConstraints(
+                    maxWidth: 400
+                ),
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: "Enter Age",
+                    labelStyle: TextStyle(
+                      color: Colors.black,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onChanged: (val){
+                      provider.checkEligibility(int.parse(val));
+                  },
+                ),
+              );
+  }
+  Row _buildHeader() {
+    return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset("assets/images/agee.png",
+                  height: 30,
+                  width: 30,
+                  ),
+                  SizedBox(width: 10,),
+                  Center(
+                      child: Text("Age Gate - Keeper",
+                        style: TextStyle(
+                          fontSize: 24,
+                        ),
+                      )),
+                ],
+              );
+  }
+
 }
